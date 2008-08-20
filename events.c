@@ -8,7 +8,7 @@ extern bool running;
 void
 ev_expose()
 {
-
+	draw();
 }
 
 void
