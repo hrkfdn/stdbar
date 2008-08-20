@@ -11,9 +11,19 @@ Window win = 0;
 int screen = 0;
 GC gc = 0;
 
+void
+close()
+{
+	if(win) XDestroyWindow(dpy, win);
+	if(gc) XFreeGC(dpy, gc);
+	if(dpy) XCloseDisplay(dpy);
+}
+
+
 int
 main(int argc, char* argv[])
 {
+	atexit(close);
 	Window root = 0;
 	int barh = 15;
 
