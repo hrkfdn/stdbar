@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include <X11/Xlib.h>
+
+bool running = true;
 
 Display* dpy = 0;
 Window win = 0;
@@ -21,7 +24,7 @@ main(int argc, char* argv[])
 
 	XSetWindowAttributes attributes;
 	attributes.override_redirect = 0;
-	attributes.background_pixel = WhitePixel(dpy, screen);
+	attributes.background_pixel = BlackPixel(dpy, screen);
 	attributes.event_mask = ExposureMask;
 
 	if(!(win = XCreateWindow(dpy, root, 0, 0, DisplayWidth(dpy, screen), 10, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
@@ -35,7 +38,7 @@ main(int argc, char* argv[])
 	XMapRaised(dpy, win);
 	XSync(dpy, False);
 
-	sleep(10);
+	eventloop();
 
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
