@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
 extern Display *dpy;
 extern Window win;
+extern int screen;
 
 #define CREATEATOM(ident, varname) atom_t varname = { #ident, 0 }
 #define INITATOM(varname) varname.atom = XInternAtom(dpy, varname.name, False)
@@ -33,7 +35,14 @@ initatoms()
 }
 
 void
-setatoms()
+setatoms(int barh)
 {
+	int struts[12];
+	memset(&struts, 0, sizeof(struts));
+	struts[2] = barh;
+	struts[9] = DisplayWidth(dpy, screen);
+
+	XChangeProperty(dpy, win, net_wm_strut.atom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)struts, 4); // for compatibility reasons
+	XChangeProperty(dpy, win, net_wm_strut_partial.atom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)struts, 12);
 	XChangeProperty(dpy, win, net_wm_window_type.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&net_wm_window_type_dock.atom, 1);
 }
