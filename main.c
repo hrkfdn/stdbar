@@ -5,12 +5,12 @@
 
 Display* dpy = 0;
 Window win = 0;
+int screen = 0;
 
 int
 main(int argc, char* argv[])
 {
 	Window root = 0;
-	int screen = 0;
 
 	if(!(dpy = XOpenDisplay(NULL))) {
 			fprintf(stderr, "Could not connect to the X server.\n");
@@ -30,12 +30,13 @@ main(int argc, char* argv[])
 			return EXIT_FAILURE;
 	}
 	initatoms();
-	setatoms();
+	setatoms(10);
 
 	XMapRaised(dpy, win);
 	XSync(dpy, False);
 
 	sleep(10);
+
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
