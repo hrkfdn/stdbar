@@ -9,11 +9,13 @@ bool running = true;
 Display* dpy = 0;
 Window win = 0;
 int screen = 0;
+GC gc = 0;
 
 int
 main(int argc, char* argv[])
 {
 	Window root = 0;
+	int barh = 15;
 
 	if(!(dpy = XOpenDisplay(NULL))) {
 			fprintf(stderr, "Could not connect to the X server.\n");
@@ -21,19 +23,21 @@ main(int argc, char* argv[])
 	}
 	screen = DefaultScreen(dpy);
 	root = DefaultRootWindow(dpy);
+	gc = XCreateGC(dpy, root, 0, 0);
 
 	XSetWindowAttributes attributes;
 	attributes.override_redirect = 0;
 	attributes.background_pixel = BlackPixel(dpy, screen);
 	attributes.event_mask = ExposureMask;
 
-	if(!(win = XCreateWindow(dpy, root, 0, 0, DisplayWidth(dpy, screen), 10, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
+	if(!(win = XCreateWindow(dpy, root, 0, 0, DisplayWidth(dpy, screen), 15, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
 			fprintf(stderr, "Could not create the window.\n");
 			XCloseDisplay(dpy);
 			return EXIT_FAILURE;
 	}
 	initatoms();
-	setatoms(10);
+	setatoms(barh);
+	draw();
 
 	XMapRaised(dpy, win);
 	XSync(dpy, False);
