@@ -3,7 +3,7 @@
 #
 
 OUT = 		stdbar
-OBJ = 		main.o atoms.o
+OBJ = 		main.o atoms.o events.o
 CC ?= 		cc
 
 INC =		`pkg-config --cflags x11`
