@@ -29,6 +29,8 @@ main(int argc, char* argv[])
 			XCloseDisplay(dpy);
 			return EXIT_FAILURE;
 	}
+	initatoms();
+	setatoms();
 
 	XMapRaised(dpy, win);
 	XSync(dpy, False);
