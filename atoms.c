@@ -30,7 +30,10 @@ setatoms(int barh)
 {
 	int struts[12];
 	memset(&struts, 0, sizeof(struts));
-	struts[2] = barh;
+	if(istop())
+		struts[2] = barh;
+	else
+		struts[3] = barh;
 	struts[9] = DisplayWidth(dpy, screen);
 
 	XChangeProperty(dpy, win, net_wm_strut.atom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)struts, 4); // for compatibility reasons
