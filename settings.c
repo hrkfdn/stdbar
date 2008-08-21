@@ -7,6 +7,20 @@ setting_t settings[] =
 	"FONT", "-*-fixed-*-*-*-*-12-*-*-*-*-*-*-*",
 };
 
+unsigned long
+alloccolor(char* colorname)
+{
+	Colormap cmap = DefaultColormap(dpy, screen);
+	XColor col;
+
+	if(!XAllocNamedColor(dpy, cmap, colorname, &col, &col)) {
+		fprintf(stderr, "Could not allocate color %s. Using white.\n", colorname);
+		return XWhitePixel(dpy, screen);
+	}
+
+	return col.pixel;
+}
+
 void
 loadsettings()
 {
