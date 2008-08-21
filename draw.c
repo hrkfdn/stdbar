@@ -1,17 +1,8 @@
-#include <stdio.h>
-#include <string.h>
-#include <X11/Xlib.h>
+#include "stdbar.h"
 
 #define FONT "-*-nu.de-*-*-*-*-11-*-*-*-*-*-*-*"
 
-extern Display* dpy;
-extern Window win;
-extern GC gc;
-extern int screen;
-extern int barh;
-
 Font font = 0;
-extern char stext[256];
 
 void
 drawtext(int x, int y, unsigned long color, char* text)
