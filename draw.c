@@ -13,7 +13,7 @@ drawtext(int x, int y, unsigned long color, char* text)
 void
 draw()
 {
-	drawtext(2, 11, alloccolor(settings[FGCOLOR].value), stext);
+	drawtext(2, barh, alloccolor(settings[FGCOLOR].value), stext);
 }
 
 void
