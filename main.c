@@ -6,7 +6,7 @@ Display* dpy = 0;
 Window win = 0;
 int screen = 0;
 GC gc = 0;
-int barh = 0;
+int barh = 0, bary = 0;
 
 void
 close()
@@ -40,13 +40,21 @@ main(int argc, char* argv[])
 	attributes.event_mask = ExposureMask;
 
 	initdrawing();
-	if(!(win = XCreateWindow(dpy, root, 0, 0, DisplayWidth(dpy, screen), 15, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
+	
+	if(!istop())
+		bary = DisplayHeight(dpy, screen)-barh;
+
+	barh += 1; // 1px spacing
+	if(!(win = XCreateWindow(dpy, root, 0, bary, DisplayWidth(dpy, screen), barh, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
 			fprintf(stderr, "Could not create the window.\n");
 			XCloseDisplay(dpy);
 			return EXIT_FAILURE;
 	}
 	initatoms();
 	setatoms(barh);
+
+	barh -= 1;
+
 	draw();
 
 	XMapRaised(dpy, win);
