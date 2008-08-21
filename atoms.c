@@ -36,6 +36,7 @@ setatoms(int barh)
 {
 	int struts[12];
 	XTextProperty wname;
+	XClassHint* chint;
 
 	memset(&struts, 0, sizeof(struts));
 	if(istop())
@@ -54,4 +55,9 @@ setatoms(int barh)
 	wname.format = 8;
 	wname.nitems = strlen((char *) wname.value);
 	XSetWMName(dpy, win, &wname);
+
+	chint = XAllocClassHint();
+	chint->res_name = "echinus";
+	chint->res_class = "echnis";
+	XSetClassHint(dpy, win, chint);
 }
