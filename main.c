@@ -10,6 +10,7 @@ Display* dpy = 0;
 Window win = 0;
 int screen = 0;
 GC gc = 0;
+int barh = 0;
 
 void
 close()
@@ -24,7 +25,6 @@ main(int argc, char* argv[])
 {
 	atexit(close);
 	Window root = 0;
-	int barh = 15;
 
 	if(!(dpy = XOpenDisplay(NULL))) {
 			fprintf(stderr, "Could not connect to the X server.\n");

@@ -7,6 +7,7 @@ extern Display* dpy;
 extern Window win;
 extern GC gc;
 extern int screen;
+extern int barh;
 
 Font font = 0;
 
@@ -26,6 +27,7 @@ draw()
 void
 initdrawing()
 {
-	font = XLoadFont(dpy, FONT);
-	XSetFont(dpy, gc, font);
+	XFontStruct* fontstruct = XLoadQueryFont(dpy, FONT);
+	XSetFont(dpy, gc, fontstruct->fid);
+	barh = fontstruct->max_bounds.ascent + fontstruct->max_bounds.descent;
 }
