@@ -1,16 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/select.h>
-#include <stdbool.h>
-#include <X11/Xlib.h>
+#include "stdbar.h"
 
-extern Display* dpy;
 char stext[256];
-
-extern bool running;
 
 void
 ev_expose()
