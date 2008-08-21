@@ -13,19 +13,22 @@ drawtext(int x, int y, unsigned long color, char* text)
 void
 draw()
 {
-	drawtext(2, barh-1, alloccolor(settings[FGCOLOR].value), stext);
+	drawtext(2, barh-2, alloccolor(settings[FGCOLOR].value), stext);
 }
 
 void
 initdrawing()
 {
+	int i, sum = 0;
+
 	XFontStruct* fontstruct = XLoadQueryFont(dpy, settings[FONT].value);
 	if(fontstruct) {
 		XSetFont(dpy, gc, fontstruct->fid);
 		barh = fontstruct->ascent + fontstruct->descent;
-	} else {
+	}
+	else {
 		fprintf(stderr, "Font could not be loaded! Using fixed.\n");
 		barh = 12; 
 	}
-	barh += 1;
+	barh += 2;
 }
