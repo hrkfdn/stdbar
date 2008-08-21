@@ -35,6 +35,8 @@ void
 setatoms(int barh)
 {
 	int struts[12];
+	XTextProperty wname;
+
 	memset(&struts, 0, sizeof(struts));
 	if(istop())
 		struts[2] = barh;
@@ -47,4 +49,9 @@ setatoms(int barh)
 	XChangeProperty(dpy, win, net_wm_window_type.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&net_wm_window_type_dock.atom, 1);
 
 	XChangeProperty(dpy, win, net_wm_name.atom, utf8_string.atom, 8, PropModeReplace, (unsigned char*)wmname, strlen(wmname));
+	wname.value = (unsigned char*)wmname;
+	wname.encoding = XA_STRING;
+	wname.format = 8;
+	wname.nitems = strlen((char *) wname.value);
+	XSetWMName(dpy, win, &wname);
 }
