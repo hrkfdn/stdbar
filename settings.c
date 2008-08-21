@@ -5,6 +5,7 @@ setting_t settings[] =
 	"BGCOLOR", "#000000",
 	"FGCOLOR", "#FFFFFF",
 	"FONT", "-*-fixed-*-*-*-*-12-*-*-*-*-*-*-*",
+	"BARPOS", "TOP",
 };
 
 unsigned long
@@ -19,6 +20,19 @@ alloccolor(char* colorname)
 	}
 
 	return col.pixel;
+}
+
+bool
+istop()
+{
+	switch(tolower(settings[BARPOS].value[0])) {
+		case 't':
+			return true;
+		case 'b':
+			return false;
+		default:
+			return true;
+	}
 }
 
 void
