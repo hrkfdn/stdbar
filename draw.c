@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <X11/Xlib.h>
 
@@ -28,6 +29,11 @@ void
 initdrawing()
 {
 	XFontStruct* fontstruct = XLoadQueryFont(dpy, FONT);
-	XSetFont(dpy, gc, fontstruct->fid);
-	barh = fontstruct->max_bounds.ascent + fontstruct->max_bounds.descent;
+	if(fontstruct) {
+		XSetFont(dpy, gc, fontstruct->fid);
+		barh = fontstruct->max_bounds.ascent + fontstruct->max_bounds.descent;
+	} else {
+		fprintf(stderr, "Font could not be loaded! Using fixed.\n");
+		barh = 11; // approximate value :(
+	}
 }
