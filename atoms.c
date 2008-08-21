@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-
-extern Display *dpy;
-extern Window win;
-extern int screen;
+#include "stdbar.h"
 
 #define CREATEATOM(ident, varname) atom_t varname = { #ident, 0 }
 #define INITATOM(varname) varname.atom = XInternAtom(dpy, varname.name, False)
