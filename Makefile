@@ -5,7 +5,7 @@
 VERSION = 	0.1
 
 OUT = 		stdbar
-OBJ = 		main.o atoms.o events.o draw.o
+OBJ = 		main.o atoms.o events.o draw.o settings.o
 CC ?= 		cc
 
 INC =		`pkg-config --cflags x11` -g
