@@ -44,7 +44,6 @@ main(int argc, char* argv[])
 	if(!istop())
 		bary = DisplayHeight(dpy, screen)-barh;
 
-	barh += 1; // 1px spacing
 	if(!(win = XCreateWindow(dpy, root, 0, bary, DisplayWidth(dpy, screen), barh, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
 			fprintf(stderr, "Could not create the window.\n");
 			XCloseDisplay(dpy);
@@ -52,8 +51,6 @@ main(int argc, char* argv[])
 	}
 	initatoms();
 	setatoms(barh);
-
-	barh -= 1;
 
 	draw();
 
