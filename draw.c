@@ -25,6 +25,6 @@ initdrawing()
 		barh = fontstruct->max_bounds.ascent + fontstruct->max_bounds.descent;
 	} else {
 		fprintf(stderr, "Font could not be loaded! Using fixed.\n");
-		barh = 11; // approximate value :( TODO: calculate height
+		barh = 12; 
 	}
 }
