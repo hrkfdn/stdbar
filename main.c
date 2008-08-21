@@ -19,7 +19,6 @@ close()
 	if(dpy) XCloseDisplay(dpy);
 }
 
-
 int
 main(int argc, char* argv[])
 {
@@ -54,6 +53,6 @@ main(int argc, char* argv[])
 
 	eventloop();
 
-	XCloseDisplay(dpy);
+	close();
 	return EXIT_SUCCESS;
 }
