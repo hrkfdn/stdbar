@@ -39,6 +39,7 @@ main(int argc, char* argv[])
 	attributes.background_pixel = BlackPixel(dpy, screen);
 	attributes.event_mask = ExposureMask;
 
+	initdrawing();
 	if(!(win = XCreateWindow(dpy, root, 0, 0, DisplayWidth(dpy, screen), 15, 0, DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen), CWOverrideRedirect | CWBackPixel | CWEventMask, &attributes))){
 			fprintf(stderr, "Could not create the window.\n");
 			XCloseDisplay(dpy);
