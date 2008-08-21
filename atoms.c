@@ -57,7 +57,7 @@ setatoms(int barh)
 	XSetWMName(dpy, win, &wname);
 
 	chint = XAllocClassHint();
-	chint->res_name = "echinus";
-	chint->res_class = "echnis";
+	chint->res_name = "stdbar";
+	chint->res_class = "stdbar";
 	XSetClassHint(dpy, win, chint);
 }
