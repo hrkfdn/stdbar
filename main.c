@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include <X11/Xlib.h>
 
@@ -11,6 +12,8 @@ Window win = 0;
 int screen = 0;
 GC gc = 0;
 int barh = 0;
+
+extern char stext[256];
 
 void
 close()
@@ -33,6 +36,9 @@ main(int argc, char* argv[])
 	screen = DefaultScreen(dpy);
 	root = DefaultRootWindow(dpy);
 	gc = XCreateGC(dpy, root, 0, 0);
+
+	memset(&stext, 0, sizeof(stext));
+	strcpy(stext, "stdbar version "VERSION);
 
 	XSetWindowAttributes attributes;
 	attributes.override_redirect = 0;

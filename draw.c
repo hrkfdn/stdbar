@@ -11,10 +11,12 @@ extern int screen;
 extern int barh;
 
 Font font = 0;
+extern char stext[256];
 
 void
 drawtext(int x, int y, unsigned long color, char* text)
 {
+	XClearWindow(dpy, win);
 	XSetForeground(dpy, gc, color); 
 	XDrawString(dpy, win, gc, x, y, text, strlen(text));
 }
@@ -22,7 +24,7 @@ drawtext(int x, int y, unsigned long color, char* text)
 void
 draw()
 {
-	drawtext(2, 11, WhitePixel(dpy, screen), "hallo welt!");
+	drawtext(2, 11, WhitePixel(dpy, screen), stext);
 }
 
 void
@@ -34,6 +36,6 @@ initdrawing()
 		barh = fontstruct->max_bounds.ascent + fontstruct->max_bounds.descent;
 	} else {
 		fprintf(stderr, "Font could not be loaded! Using fixed.\n");
-		barh = 11; // approximate value :(
+		barh = 11; // approximate value :( TODO: calculate height
 	}
 }
