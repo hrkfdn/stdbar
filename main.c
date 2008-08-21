@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
-#include <X11/Xlib.h>
+#include "stdbar.h"
 
 bool running = true;
 
@@ -12,8 +7,6 @@ Window win = 0;
 int screen = 0;
 GC gc = 0;
 int barh = 0;
-
-extern char stext[256];
 
 void
 close()
@@ -28,6 +21,7 @@ main(int argc, char* argv[])
 {
 	atexit(close);
 	Window root = 0;
+	loadsettings();
 
 	if(!(dpy = XOpenDisplay(NULL))) {
 			fprintf(stderr, "Could not connect to the X server.\n");
