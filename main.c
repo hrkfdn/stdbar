@@ -36,7 +36,7 @@ main(int argc, char* argv[])
 
 	XSetWindowAttributes attributes;
 	attributes.override_redirect = 0;
-	attributes.background_pixel = BlackPixel(dpy, screen);
+	attributes.background_pixel = alloccolor(settings[BGCOLOR].value);
 	attributes.event_mask = ExposureMask;
 
 	initdrawing();
