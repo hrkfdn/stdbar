@@ -3,7 +3,13 @@
 #define CREATEATOM(ident, varname) atom_t varname = { #ident, 0 }
 #define INITATOM(varname) varname.atom = XInternAtom(dpy, varname.name, False)
 
-char wmname[] = "stdbar "VERSION;
+char* wmname = "stdbar "VERSION;
+
+enum {
+	STRUT_LEFT = 0, STRUT_RIGHT, STRUT_TOP, STRUT_BOTTOM,
+	STRUT_LEFT_START_Y, STRUT_LEFT_END_Y, STRUT_RIGHT_START_Y, STRUT_RIGHT_END_Y,
+	STRUT_TOP_START_X, STRUT_TOP_END_X, STRUT_BOTTOM_START_X, STRUT_BOTTOM_END_X
+};
 
 typedef struct
 {
@@ -48,21 +54,21 @@ setatoms(int barh)
 	Atom states[2] = { net_wm_state_sticky.atom, net_wm_state_skip_pager.atom };
 
 	memset(&struts, 0, sizeof(struts));
-	if(istop())
-		struts[2] = barh;
-	else
-		struts[3] = barh;
-	struts[9] = DisplayWidth(dpy, screen);
+	if(istop()) {
+		struts[STRUT_TOP] = barh;
+		struts[STRUT_TOP_END_X] = DisplayWidth(dpy, screen);
+	}
+	else {
+		struts[STRUT_BOTTOM] = barh;
+		struts[STRUT_BOTTOM_END_X] = DisplayWidth(dpy, screen);
+	}
 
 	XChangeProperty(dpy, win, net_wm_strut.atom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)struts, 4); // for compatibility reasons
 	XChangeProperty(dpy, win, net_wm_strut_partial.atom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)struts, 12);
 	XChangeProperty(dpy, win, net_wm_window_type.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&net_wm_window_type_dock.atom, 1);
 
 	XChangeProperty(dpy, win, net_wm_name.atom, utf8_string.atom, 8, PropModeReplace, (unsigned char*)wmname, strlen(wmname));
-	wname.value = (unsigned char*)wmname;
-	wname.encoding = XA_STRING;
-	wname.format = 8;
-	wname.nitems = strlen((char *) wname.value);
+	XStringListToTextProperty(&wmname, 1, &wname);
 	XSetWMName(dpy, win, &wname);
 
 	chint = XAllocClassHint();
@@ -71,4 +77,5 @@ setatoms(int barh)
 	XSetClassHint(dpy, win, chint);
 
 	XChangeProperty(dpy, win, net_wm_state.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&states, 2);
+	XSync(dpy, False);
 }
