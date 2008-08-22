@@ -13,6 +13,10 @@ typedef struct
 
 CREATEATOM(UTF8_STRING, utf8_string);
 
+CREATEATOM(_NET_WM_STATE, net_wm_state);
+CREATEATOM(_NET_WM_STATE_STICKY, net_wm_state_sticky);
+CREATEATOM(_NET_WM_STATE_SKIP_PAGER, net_wm_state_skip_pager);
+
 CREATEATOM(_NET_WM_NAME, net_wm_name);
 CREATEATOM(_NET_WM_WINDOW_TYPE, net_wm_window_type);
 CREATEATOM(_NET_WM_WINDOW_TYPE_DOCK, net_wm_window_type_dock);
@@ -23,6 +27,10 @@ void
 initatoms()
 {
 	INITATOM(utf8_string);
+
+	INITATOM(net_wm_state);
+	INITATOM(net_wm_state_sticky);
+	INITATOM(net_wm_state_skip_pager);
 
 	INITATOM(net_wm_name);
 	INITATOM(net_wm_window_type);
@@ -37,6 +45,7 @@ setatoms(int barh)
 	int struts[12];
 	XTextProperty wname;
 	XClassHint* chint;
+	Atom states[2] = { net_wm_state_sticky.atom, net_wm_state_skip_pager.atom };
 
 	memset(&struts, 0, sizeof(struts));
 	if(istop())
@@ -60,4 +69,6 @@ setatoms(int barh)
 	chint->res_name = "stdbar";
 	chint->res_class = "stdbar";
 	XSetClassHint(dpy, win, chint);
+
+	XChangeProperty(dpy, win, net_wm_state.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&states, 2);
 }
