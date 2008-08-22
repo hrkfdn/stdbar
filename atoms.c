@@ -22,13 +22,15 @@ CREATEATOM(UTF8_STRING, utf8_string);
 CREATEATOM(_NET_WM_STATE, net_wm_state);
 CREATEATOM(_NET_WM_STATE_STICKY, net_wm_state_sticky);
 CREATEATOM(_NET_WM_STATE_SKIP_PAGER, net_wm_state_skip_pager);
-CREATEATOM(_NET_WM_STATE_SKIP_TASKBAR, net_state_skip_taskbar);
+CREATEATOM(_NET_WM_STATE_SKIP_TASKBAR, net_wm_state_skip_taskbar);
 
 CREATEATOM(_NET_WM_NAME, net_wm_name);
 CREATEATOM(_NET_WM_WINDOW_TYPE, net_wm_window_type);
 CREATEATOM(_NET_WM_WINDOW_TYPE_DOCK, net_wm_window_type_dock);
 CREATEATOM(_NET_WM_STRUT, net_wm_strut);
 CREATEATOM(_NET_WM_STRUT_PARTIAL, net_wm_strut_partial);
+
+CREATEATOM(_NET_WM_DESKTOP, net_wm_desktop);
 
 void
 initatoms()
@@ -45,15 +47,19 @@ initatoms()
 	INITATOM(net_wm_window_type_dock);
 	INITATOM(net_wm_strut);
 	INITATOM(net_wm_strut_partial);
+
+	INITATOM(net_wm_desktop);
 }
 
 void
 setatoms(int barh)
 {
+	unsigned int desk = 0xFFFFFFFF;
 	int struts[12];
 	XTextProperty wname;
 	XClassHint* chint;
 	Atom states[3] = { net_wm_state_sticky.atom, net_wm_state_skip_pager.atom, net_wm_state_skip_taskbar.atom };
+	XSizeHints* shints = 0;
 
 	memset(&struts, 0, sizeof(struts));
 	if(istop()) {
@@ -78,7 +84,15 @@ setatoms(int barh)
 	chint->res_class = "stdbar";
 	XSetClassHint(dpy, win, chint);
 
-	XChangeProperty(dpy, win, net_wm_state.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&states, 2);
+	XChangeProperty(dpy, win, net_wm_state.atom, XA_ATOM, 32, PropModeReplace, (unsigned char*)&states, 3);
+
+	shints = XAllocSizeHints();
+	shints->min_width = DisplayWidth(dpy, screen);
+	shints->min_height = barh;
+	shints->flags = PPosition|PMinSize;
+	XSetWMNormalHints(dpy, win, shints);
+
+	XChangeProperty(dpy, win, net_wm_desktop.atom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)&desk, 1);
 
 	XSync(dpy, False);
 }
